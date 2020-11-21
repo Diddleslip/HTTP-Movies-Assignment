@@ -3,6 +3,7 @@ import { Route } from "react-router-dom";
 import SavedList from "./Movies/SavedList";
 import MovieList from "./Movies/MovieList";
 import Movie from "./Movies/Movie";
+import FormUpdate from "./Movies/FormUpdate";
 import axios from 'axios';
 
 const App = () => {
@@ -12,7 +13,10 @@ const App = () => {
   const getMovieList = () => {
     axios
       .get("http://localhost:5000/api/movies")
-      .then(res => setMovieList(res.data))
+      .then(res => {
+        // console.log("This is OG data", res.data)
+        setMovieList(res.data)
+      })
       .catch(err => console.log(err.response));
   };
 
@@ -33,7 +37,11 @@ const App = () => {
       </Route>
 
       <Route path="/movies/:id">
-        <Movie addToSavedList={addToSavedList} />
+        <Movie movieList={movieList} setMovieList={setMovieList} addToSavedList={addToSavedList} />
+      </Route>
+
+      <Route path="/update-movies/:id">
+        <FormUpdate movieList={movieList} setMovieList={setMovieList}/> 
       </Route>
     </>
   );
